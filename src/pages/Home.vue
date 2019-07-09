@@ -8,8 +8,11 @@
 
     <div id="full-name">
       <b>Name:</b>
-      {{ firstName }} {{ lastName }}
+      {{ fullName }}
     </div>
+
+    <button @click="submit">Submit</button>
+    <button @click="clearInputs">Clear All</button>
   </div>
 </template>
 
@@ -23,13 +26,42 @@ import TextInput from "@/components/TextInput.vue";
   }
 })
 export default class Home extends Vue {
-  firstName: string = "";
-  lastName: string = "";
+  get firstName(): string {
+    return this.$store.state.firstName;
+  }
+
+  set firstName(value: string) {
+    this.$store.commit("UPDATE_FIRST_NAME", value);
+  }
+
+  get lastName(): string {
+    return this.$store.state.lastName;
+  }
+
+  set lastName(value: string) {
+    this.$store.commit("UPDATE_LAST_NAME", value);
+  }
+
+  get fullName(): string {
+    return this.$store.getters.fullName;
+  }
+
+  submit() {
+    this.$store.dispatch("submit");
+  }
+
+  clearInputs() {
+    this.$store.dispatch("clearAll");
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 #full-name {
   margin: 20px 0px;
+}
+
+button {
+  margin-right: 10px;
 }
 </style>
